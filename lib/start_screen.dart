@@ -1,11 +1,9 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 
 class StartScreen extends StatelessWidget {
   const StartScreen(this.startQuiz, {super.key});
 
-  final Void Function() startQuiz;
+  final Function() startQuiz;
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +13,7 @@ class StartScreen extends StatelessWidget {
         children: [
           Image.asset(
             'assets/images/quiz-logo.png',
+            width: 500,
             color: const Color.fromARGB(123, 255, 255, 255),
           ),
           const SizedBox(
