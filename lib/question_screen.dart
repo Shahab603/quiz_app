@@ -1,31 +1,44 @@
 import 'package:flutter/material.dart';
-import 'package:quiz_app/answer_button.dart';
-import './data/questions.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class QuestionScreen extends StatefulWidget {
-  const QuestionScreen({super.key, required this.onSelectAnswer});
+import '/answer_button.dart';
+import '/data/questions.dart';
 
-  final Function(String answer) onSelectAnswer;
+class QuestionsScreen extends StatefulWidget {
+  const QuestionsScreen({
+    super.key,
+    required this.onSelectAnswer,
+  });
+
+  final void Function(String answer) onSelectAnswer;
 
   @override
-  State<QuestionScreen> createState() => _QuestionScreenState();
+  State<QuestionsScreen> createState() {
+    return _QuestionsScreenState();
+  }
 }
 
-class _QuestionScreenState extends State<QuestionScreen> {
-  var currentIndexQuestion = 0;
+class _QuestionsScreenState extends State<QuestionsScreen> {
+  var currentQuestionIndex = 0;
 
-  void answerQuestion(String slectedAnswer) {
-    widget.onSelectAnswer(slectedAnswer);
+  void answerQuestion(String selectedAnswer) {
+    widget.onSelectAnswer(selectedAnswer);
+    // currentQuestionIndex = currentQuestionIndex + 1;
+    // currentQuestionIndex += 1;
+
     setState(() {
-      currentIndexQuestion++;
+      currentQuestionIndex++;
+
+      // increments the value by 1
     });
   }
 
   @override
-  Widget build(BuildContext context) {
-    final currentQuestion = questions[currentIndexQuestion];
-    return Center(
+  Widget build(context) {
+    final currentQuestion = questions[currentQuestionIndex];
+
+    return SizedBox(
+      width: double.infinity,
       child: Container(
         margin: const EdgeInsets.all(40),
         child: Column(
@@ -41,16 +54,15 @@ class _QuestionScreenState extends State<QuestionScreen> {
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(
-              height: 30,
-            ),
-            ...currentQuestion.getShuffledList().map(
-                  (answer) => AnswerButton(
-                      answerText: answer,
-                      onTap: () {
-                        answerQuestion(answer);
-                      }),
-                ),
+            const SizedBox(height: 30),
+            ...currentQuestion.getShuffledList().map((answer) {
+              return AnswerButton(
+                answerText: answer,
+                onTap: () {
+                  answerQuestion(answer);
+                },
+              );
+            })
           ],
         ),
       ),
