@@ -1,43 +1,34 @@
 import 'package:flutter/material.dart';
 
-class QuestionSummary extends StatelessWidget {
-  const QuestionSummary({super.key, required this.dataSummary});
+class QuestionsSummary extends StatelessWidget {
+  const QuestionsSummary(this.summaryData, {super.key});
 
-  final List<Map<String, Object>> dataSummary;
+  final List<Map<String, Object>> summaryData;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 300,
-      child: SingleChildScrollView(
-        child: Column(
-          children: dataSummary.map((data) {
-            //there was error of Null is not a subtype of int this is solved by chatGPT provided the code 
-            final questionIndex = ((data['question_index'] as int? ) ) ?? 0;
-            final question = data['question'] as String? ?? '';
-            final chosenAnswer = data['chosen_answer'] as String? ?? '';
-            final correctAnswer = data['correct_answer'] as String? ?? '';
-            // until this chat gpt provided. the variables declare upper is provided by
-            return Row(
-              children: [
-                
-                
-                 Text((questionIndex + 1).toString()) ,
-                 Expanded(
-                   child: Column(children: [
-                    Text(question),
-                    const SizedBox(height: 5,),
-                    Text(chosenAnswer),
-                    Text(correctAnswer),
-                 
-                   ],),
-                 )
-          
-              ],
-            );
-          }).toList(),
-        ),
-      ),
+    return Column(
+      children: summaryData.map(
+        (data) {
+          return Row(
+            children: [
+              Text(((data['question_index'] as int) + 1).toString()),
+              Expanded(
+                child: Column(
+                  children: [
+                    Text(data['question'] as String),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Text(data['user_answer'] as String),
+                    Text(data['correct_answer'] as String),
+                  ],
+                ),
+              ),
+            ],
+          );
+        },
+      ).toList(),
     );
   }
 }
